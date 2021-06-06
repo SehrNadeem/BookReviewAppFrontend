@@ -1,55 +1,75 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React from "react";
+import { NavLink, withRouter } from "react-router-dom";
+import { removeLocalStorage } from '../services/local-storage-service';
 
-const Navbar = () => {
-  const [isOpen, setOpen] = useState(false);
-  return (
-    <nav
-      className="navbar is-primary"
-      role="navigation"
-      aria-label="main navigation"
-    >
-      <div className="container">
-        <div className="navbar-brand">
-          <a
-            role="button"
-            className={`navbar-burger burger ${isOpen && "is-active"}`}
-            aria-label="menu"
-            aria-expanded="false"
-            onClick={() => setOpen(!isOpen)}
-          >
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
-        </div>
+const Navbar = ({ history }) => {
 
-        <div className={`navbar-menu ${isOpen && "is-active"}`}>
-          <div className="navbar-start">
-            <NavLink className="navbar-item" activeClassName="is-active" to="/">
-              Home
-            </NavLink>
+	const logoutUser = () => {
+		removeLocalStorage("token");
+		history.push("/");
+	};
 
-            <NavLink
-              className="navbar-item"
-              activeClassName="is-active"
-              to="/profile">
-              Profile
-            </NavLink>
+	return (
+		<nav
+			className="navbar is-primary"
+			role="navigation"
+			aria-label="main navigation"
+		>
+			<div className="container">
+				<div className="navbar-brand">
+					<a
+						role="button"
+						className="navbar-burger burger is-active"
+						aria-label="menu"
+						aria-expanded="false"
+					>
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+					</a>
+				</div>
 
-          </div>
+				<div className="navbar-menu is-active">
+					<div className="navbar-start">
+						<NavLink
+							className="navbar-item"
+							activeClassName="is-active"
+							to="/home"
+							exact
+						>
+							Home
+						</NavLink>
 
-          <div className="navbar-end">
-            <div className="navbar-item">
-              <div className="buttons">
-                <a className="button is-white">Log Out</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
+						<NavLink
+							className="navbar-item"
+							activeClassName="is-active"
+							to="/user"
+						>
+							Profile
+						</NavLink>
+
+						<NavLink
+							className="navbar-item"
+							activeClassName="is-active"
+							to="/book"
+						>
+							Books
+						</NavLink>
+					</div>
+
+					<div className="navbar-end">
+						<div className="navbar-item">
+							<div className="buttons">
+								<button className="button is-black" onClick={logoutUser}>
+									Log out
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+	);
 };
 
-export default Navbar;
+export default withRouter(Navbar);

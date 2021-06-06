@@ -1,63 +1,56 @@
 import 'react-native-gesture-handler';
 import './App.css';
-import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import {Route, Switch} from "react-router-dom";
 import "bulma/css/bulma.min.css";
-
-import SignUp from './components/SignUp';
-import SignIn from './components/SignIn';
+import React, { Component } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
 import Navbar from './components/Navbar';
-import User from './components/User';
-import Book from './components/Book';
-import {signUp, signIn, userLoggedIn} from './services/auth-service';
+import User from './pages/User';
+import Book from './pages/Book';
+import Home from './pages/Home';
 
 class App extends Component {
 
-  state = {
-    user: {},
-    error: "",
-    isReturningUser: false,
-  }
+	state = {
+		user: {},
+		error: ""
+	}
 
+	render() {
+		return (
+			<div className="App">
+				<BrowserRouter>
+					<Switch>
+						<Route exact path="/">
+							<SignIn />
+						</Route>
+						<Route exact path="/signup">
+							<SignUp />
+						</Route>
+						<div>
+							<Navbar />
+							<Route exact path="/home">
+								<Home />
+							</Route>
 
-  componentDidMount(){
-    let token = localStorage.getItem('token')
-    if(token){
-      userLoggedIn
-    }
-  }
+							<Route exact path="/user/:name">
+								<User />
+							</Route>
 
-  render() {
-    var welcomMessage = "Welcome";
-    if (this.state.isReturningUser) {
-      welcomMessage = welcomMessage + " back"
-    }
-    return (
-      <BrowserRouter>
-      <Navbar />
-      <div className="App">
-          
-        {this.state.user.username ? <h2>{welcomMessage} {this.state.user.first_name} {this.state.user.last_name}</h2> : (
-          <>
-          <SignIn signIn={signIn} error={this.state.error} />
-          <SignUp signUp={signUp} />
-          </>)
-        }
+							<Route exact path="/user">
+								<User />
+							</Route>
 
-        <Switch>
-          <Route exact path="/book">
-            <Book />
-          </Route>
-          <Route path="/user">
-            <User />
-          </Route>
-        </Switch>
-      </div>
-
-      </BrowserRouter>
-    );
-  } 
+							<Route path="/book">
+								<Book />
+							</Route>
+						</div>
+					</Switch>
+				</BrowserRouter>
+			</div>
+		);
+	}
 }
 
 export default App;
