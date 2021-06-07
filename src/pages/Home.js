@@ -2,10 +2,10 @@ import React from "react";
 import withAuth from "../components/withAuth";
 
 const Home = () => (
-	<div>
-		<h1 className="title">This is the Home Page</h1>
+  <div>
+    <h1 className="title">This is the Home Page</h1>
 
-	</div>
+  </div>
 );
 
 export default withAuth(Home);
