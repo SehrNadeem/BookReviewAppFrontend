@@ -1,17 +1,22 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 
 export default class Home extends Component {
 
-    state = {
-        firstName: '',
-        lastName: ''
+  constructor() {
+    super()
+    this.state = {
+      firstName: '',
+      lastName: ''
     }
+  }  
 
   
-    render() {
-        return (
-          <h1>Home Page</h1>
-          <h2>Welcome {this.state.first_name} {this.state.last_name}</h2>
-        )
-    }
+  render() {
+    return (
+      <div>
+        <h1>Home Page</h1>
+        <h2>Welcome {this.state.first_name} {this.state.last_name}</h2>
+      </div>
+    )
+  }
 }

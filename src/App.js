@@ -9,48 +9,56 @@ import Navbar from './components/Navbar';
 import User from './pages/User';
 import Book from './pages/Book';
 import Home from './pages/Home';
+import BooksList from './components/BooksList';
 
 class App extends Component {
 
-	state = {
-		user: {},
-		error: ""
-	}
+  constructor(){
+    super()
+    this.state = {
+      user: {},
+      error: ""
+    }
+  }
 
-	render() {
-		return (
-			<div className="App">
-				<BrowserRouter>
-					<Switch>
-						<Route exact path="/">
-							<SignIn />
-						</Route>
-						<Route exact path="/signup">
-							<SignUp />
-						</Route>
-						<div>
-							<Navbar />
-							<Route exact path="/home">
-								<Home />
-							</Route>
+  render() {
+    return (
+      <div className="App">
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/">
+              <SignIn />
+            </Route>
+            <Route exact path="/signup">
+              <SignUp />
+            </Route>
+            <div>
+              <Navbar />
+              <Route exact path="/home">
+                <Home />
+              </Route>
 
-							<Route exact path="/user/:name">
-								<User />
-							</Route>
+              <Route exact path="/user/:name">
+                <User />
+              </Route>
 
-							<Route exact path="/user">
-								<User />
-							</Route>
+              <Route exact path="/user">
+                <User />
+              </Route>
 
-							<Route path="/book">
-								<Book />
-							</Route>
-						</div>
-					</Switch>
-				</BrowserRouter>
-			</div>
-		);
-	}
+              <Route path="/book">
+                <Book />
+              </Route>
+
+              <Route exact path="/bookslist">
+                <BooksList />
+              </Route>
+            </div>
+          </Switch>
+        </BrowserRouter>
+      </div>
+    );
+  }
 }
 
 export default App;
