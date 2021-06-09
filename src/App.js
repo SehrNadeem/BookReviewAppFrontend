@@ -10,6 +10,9 @@ import User from './pages/User';
 import Book from './pages/Book';
 import Home from './pages/Home';
 import BooksList from './components/BooksList';
+import BookDisplay from './components/BookDisplay';
+import Review from './components/Review';
+import BookReviews from './components/BookReviews';
 
 class App extends Component {
 
@@ -52,6 +55,18 @@ class App extends Component {
 
               <Route exact path="/bookslist">
                 <BooksList />
+              </Route>
+
+              <Route exact path="/bookdisplay/:id">
+                <BookDisplay />
+              </Route>
+
+              <Route exact path="/review/:book_id">
+                <Review />
+              </Route>
+
+              <Route exact path="/bookreviews/:id">
+                <BookReviews />
               </Route>
             </div>
           </Switch>

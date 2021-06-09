@@ -51,7 +51,7 @@ const Navbar = ({ history }) => {
             <NavLink
               className="navbar-item"
               activeClassName="is-active"
-              to="/book"
+              to="/bookslist"
             >
               Books
             </NavLink>

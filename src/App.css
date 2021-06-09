@@ -52,3 +52,7 @@ form {
 form input{
   margin: 1rem;
 }
+
+.is-horizontal-center {
+  justify-content: center;
+}
