@@ -37,6 +37,10 @@ class BookDisplay extends Component {
   }
 
   render(){
+    let ratingAvailable = false;
+    if (this.state.averageRating > 0){
+      ratingAvailable = true
+    }
     return(
       <div className="card">
         <header className="card-header">
@@ -55,11 +59,11 @@ class BookDisplay extends Component {
             <div className="media-content">
               <p className="title is-4">{this.state.book.title}</p>
               <p className="subtitle is-6">By: {this.state.book.author}</p>
-              <p className="subtitle is-6"><i>Average Rating: {this.state.averageRating}</i></p>
+              <p className="subtitle is-6"><i>{ratingAvailable ? 'Average Rating:' + this.state.averageRating : "There are no reviews posted for this book"}</i></p>
             </div>
           </div>
           <div className="content">
-            <p>{this.state.book.short_description}</p>
+            <p><i>Short Description: </i>{this.state.book.short_description}</p>
           </div>
         </div>
         <footer className="card-footer">
@@ -69,9 +73,7 @@ class BookDisplay extends Component {
         </footer>
       </div>
     )
-
   }
-  
 }
 
 export default withAuth(withRouter(BookDisplay));
