@@ -51,31 +51,36 @@ class BookReviews extends Component {
   }
 
   render(){
-    return(
-      <div>
-        <br/>
-        <h1>Reviews of <b>{this.state.book.title}</b></h1>
-        <br/>
-        <table className="table is-hoverable is-fullwidth">
-          <tbody>
-            <tr>
-              <th>Rating</th>
-              <th>Details</th>
-              <th>Posted By</th>
-            </tr>
-            {this.state.reviews.map((review, index) => (
-              <tr key={review.id}>
-                <td>{review.rating}</td>
-                <td>{review.details}</td>
-                <td>{this.state.postedBy[index]}</td>
+    if (this.state.reviews && this.state.reviews.length) {
+      return (
+        <div>
+          <h1>Reviews of <b>{this.state.book.title}</b></h1>
+          <br/>
+          <table className="table is-hoverable is-fullwidth">
+            <tbody>
+              <tr>
+                <th>Rating</th>
+                <th>Details</th>
+                <th>Posted By</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
+              {this.state.reviews.map((review, index) => (
+                <tr key={review.id}>
+                  <td>{review.rating}</td>
+                  <td>{review.details}</td>
+                  <td>{this.state.postedBy[index]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+    else {
+      return (
+        <p><i>There are no reviews posted for this book</i></p>
+      );
+    }
   }
-  
 }
 
 export default withAuth(withRouter(BookReviews));

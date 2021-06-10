@@ -31,14 +31,6 @@ const Navbar = ({ history }) => {
 
         <div className="navbar-menu is-active">
           <div className="navbar-start">
-            <NavLink
-              className="navbar-item"
-              activeClassName="is-active"
-              to="/home"
-              exact
-            >
-              Home
-            </NavLink>
 
             <NavLink
               className="navbar-item"

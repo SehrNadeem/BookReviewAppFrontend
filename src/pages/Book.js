@@ -74,7 +74,6 @@ class Book extends Component {
       </div>
     )
   }
-  
 }
 
 export default withAuth(withRouter(Book));

@@ -8,7 +8,6 @@ import SignUp from './pages/SignUp';
 import Navbar from './components/Navbar';
 import User from './pages/User';
 import Book from './pages/Book';
-import Home from './pages/Home';
 import BooksList from './components/BooksList';
 import BookDisplay from './components/BookDisplay';
 import Review from './components/Review';
@@ -37,10 +36,6 @@ class App extends Component {
             </Route>
             <div>
               <Navbar />
-              <Route exact path="/home">
-                <Home />
-              </Route>
-
               <Route exact path="/user/:name">
                 <User />
               </Route>
@@ -54,6 +49,10 @@ class App extends Component {
               </Route>
 
               <Route exact path="/bookslist">
+                <BooksList />
+              </Route>
+
+              <Route exact path="/bookslist/:page">
                 <BooksList />
               </Route>
 

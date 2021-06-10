@@ -11,22 +11,27 @@ class BooksList extends Component  {
     super();
     this.state = {
       books: [],
-      postedBy: []
+      postedBy: [],
+      nextCursor: '',
+      prevCursor: ''
     }
   }
 
-  componentDidMount(){
+  getBookList(url){
     let token = getLocalStorage("token")
-    API.get(`books`, {
+    API.get(url, {
       headers: {
         "Accept": "application/json",
         "Authorization": `Bearer ${token}`
       }
     }).then(result => {
-      console.log(result.data)
+      console.log(result.data.books)
+      let books = result.data.books
       this.setState({ 
-        books:  result.data.books,
-        postedBy: result.data.posted_by
+        books:  books,
+        postedBy: result.data.posted_by,
+        prevCursor: books[0].cursor,
+        nextCursor: books[books.length - 1].cursor
       })
 
     }).catch(error => {
@@ -36,14 +41,29 @@ class BooksList extends Component  {
     })
   }
 
+  componentDidMount(){
+    this.getBookList("books_paginated")
+  }
+
   displayBook(bookId){
     console.log(bookId)
     this.props.history.push(`/bookdisplay/${bookId}`)
   }
 
+  getNextPage(){
+    let url = `books_paginated/${this.state.nextCursor}:next`
+    console.log(url)
+    this.getBookList(url)
+  }
+
+  getPreviousPage(){
+    let url = `books_paginated/${this.state.prevCursor}:prev`
+    this.getBookList(url)
+  }
+
   render(){
     return (
-      <div>
+      <div className="container">
         <table className="table is-hoverable is-fullwidth">
           <tbody>
             <tr>
@@ -53,16 +73,21 @@ class BooksList extends Component  {
               <th>Posted By</th>
             </tr>
             {this.state.books.map((book, index) => (
-              <tr key={book.id} onClick={() => this.displayBook(book.id)}>
-                <td>{book.title}</td>
-                <td>{book.author}</td>
-                <td>{book.short_description}</td>
+              <tr key={book.data.id} onClick={() => this.displayBook(book.data.id)}>
+                <td>{book.data.title}</td>
+                <td>{book.data.author}</td>
+                <td>{book.data.short_description}</td>
                 <td>{this.state.postedBy[index]}</td>
               </tr>
             ))}
           </tbody>
         </table>
         <a href="/book" className="button">Add Book</a>
+        <br/>
+        <nav className="pagination is-center" role="navigation" aria-label="pagination">
+          <a className="pagination-previous" onClick={() => this.getPreviousPage()}>Previous</a>
+          <a className="pagination-next" onClick={() => this.getNextPage()} >Next page</a>
+        </nav>
       </div>
     );
   }

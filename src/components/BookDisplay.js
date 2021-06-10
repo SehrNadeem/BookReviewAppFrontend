@@ -3,7 +3,6 @@ import withAuth from "../components/withAuth";
 import { withRouter } from "react-router-dom";
 import API from '../services/api';
 import { getLocalStorage } from '../services/local-storage-service';
-// import BookReviews from "./BookReviews";
 
 class BookDisplay extends Component {
 
