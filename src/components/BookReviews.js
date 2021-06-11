@@ -1,8 +1,8 @@
 import React, { Component} from "react";
 import withAuth from "../components/withAuth";
 import { withRouter } from "react-router-dom";
-import API from '../services/api';
-import { getLocalStorage } from '../services/local-storage-service';
+import BooKService from "../services/book-service";
+import ReviewService from "../services/review-service";
 
 class BookReviews extends Component {
 
@@ -16,15 +16,10 @@ class BookReviews extends Component {
   }
 
   componentDidMount() {
-    let token = getLocalStorage("token")
     let id = this.props.match.params.id;
 
-    API.get(`books/${id}`, {
-      headers: {
-        "Accept": "application/json",
-        "Authorization": `Bearer ${token}`
-      }
-    }).then(result => {
+    BooKService.getBook(id).then(result => {
+      console.log(result.data.book)
       this.setState({
         book: result.data.book
       })
@@ -34,11 +29,7 @@ class BookReviews extends Component {
       })
     })
 
-    API.get(`reviews/get_reviews_for_book/${id}`, {
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    }).then(result => {
+    ReviewService.getBookReviews(id).then(result => {
       this.setState({
         reviews: result.data.reviews,
         postedBy: result.data.posted_by
@@ -51,35 +42,33 @@ class BookReviews extends Component {
   }
 
   render(){
-    if (this.state.reviews && this.state.reviews.length) {
-      return (
-        <div>
-          <h1>Reviews of <b>{this.state.book.title}</b></h1>
-          <br/>
-          <table className="table is-hoverable is-fullwidth">
-            <tbody>
-              <tr>
-                <th>Rating</th>
-                <th>Details</th>
-                <th>Posted By</th>
-              </tr>
-              {this.state.reviews.map((review, index) => (
-                <tr key={review.id}>
-                  <td>{review.rating}</td>
-                  <td>{review.details}</td>
-                  <td>{this.state.postedBy[index]}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      );
-    }
-    else {
+    if (this.state.book.total_reviews === 0){
       return (
         <p><i>There are no reviews posted for this book</i></p>
       );
     }
+    return (
+      <div>
+        <h1>Reviews of <b>{this.state.book.title}</b></h1>
+        <br/>
+        <table className="table is-hoverable is-fullwidth">
+          <tbody>
+            <tr>
+              <th>Rating</th>
+              <th>Details</th>
+              <th>Posted By</th>
+            </tr>
+            {this.state.reviews.map((review, index) => (
+              <tr key={review.id}>
+                <td>{review.rating}</td>
+                <td>{review.details}</td>
+                <td>{this.state.postedBy[index]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
   }
 }
 

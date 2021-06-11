@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
 import withAuth from "../components/withAuth";
-
-import API from '../services/api';
-import { getLocalStorage } from '../services/local-storage-service';
+import BooKService from "../services/book-service";
 
 class BooksList extends Component  {
 
@@ -18,13 +16,7 @@ class BooksList extends Component  {
   }
 
   getBookList(url){
-    let token = getLocalStorage("token")
-    API.get(url, {
-      headers: {
-        "Accept": "application/json",
-        "Authorization": `Bearer ${token}`
-      }
-    }).then(result => {
+    BooKService.getBookList(url).then(result => {
       console.log(result.data.books)
       let books = result.data.books
       this.setState({ 
@@ -33,7 +25,6 @@ class BooksList extends Component  {
         prevCursor: books[0].cursor,
         nextCursor: books[books.length - 1].cursor
       })
-
     }).catch(error => {
       this.setState({
         error: error.message
@@ -42,23 +33,25 @@ class BooksList extends Component  {
   }
 
   componentDidMount(){
-    this.getBookList("books_paginated")
+    this.getBookList()
   }
 
   displayBook(bookId){
-    console.log(bookId)
     this.props.history.push(`/bookdisplay/${bookId}`)
   }
 
-  getNextPage(){
-    let url = `books_paginated/${this.state.nextCursor}:next`
-    console.log(url)
-    this.getBookList(url)
-  }
-
-  getPreviousPage(){
-    let url = `books_paginated/${this.state.prevCursor}:prev`
-    this.getBookList(url)
+  getPage(position){
+    let params
+    if (position === 'prev')
+    {
+      params  = this.state.prevCursor
+    } 
+    else
+    {
+      params  = this.state.nextCursor
+    }
+    params = params + ':' + position
+    this.getBookList(params)
   }
 
   render(){
@@ -71,6 +64,7 @@ class BooksList extends Component  {
               <th>Author</th>
               <th>Description</th>
               <th>Posted By</th>
+              <th>Cover Photo</th>
             </tr>
             {this.state.books.map((book, index) => (
               <tr key={book.data.id} onClick={() => this.displayBook(book.data.id)}>
@@ -78,6 +72,11 @@ class BooksList extends Component  {
                 <td>{book.data.author}</td>
                 <td>{book.data.short_description}</td>
                 <td>{this.state.postedBy[index]}</td>
+                <td>
+                  <figure className="image is-128x128">
+                    <img src={`${process.env.REACT_APP_SERVER_URL}${book.data.cover_photo.url}`} alt="No cover photo uploaded" />
+                  </figure>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -85,8 +84,8 @@ class BooksList extends Component  {
         <a href="/book" className="button">Add Book</a>
         <br/>
         <nav className="pagination is-center" role="navigation" aria-label="pagination">
-          <a className="pagination-previous" onClick={() => this.getPreviousPage()}>Previous</a>
-          <a className="pagination-next" onClick={() => this.getNextPage()} >Next page</a>
+          <a className="pagination-previous" onClick={() => this.getPage('prev')}>Previous</a>
+          <a className="pagination-next" onClick={() => this.getPage('next')} >Next page</a>
         </nav>
       </div>
     );

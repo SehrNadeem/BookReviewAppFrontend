@@ -4,8 +4,7 @@ import { getLocalStorage } from '../services/local-storage-service';
 
 const withAuth = (Component) => {
   const AuthRoute = () => {
-    const isAuth = !!getLocalStorage("token");
-    if (isAuth) {
+    if (getLocalStorage("token")) {
       return <Component />;
     } else {
       return <Redirect to="/" />;

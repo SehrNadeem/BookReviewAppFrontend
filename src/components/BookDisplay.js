@@ -1,8 +1,7 @@
 import React, { Component} from "react";
 import withAuth from "../components/withAuth";
 import { withRouter } from "react-router-dom";
-import API from '../services/api';
-import { getLocalStorage } from '../services/local-storage-service';
+import BooKService from "../services/book-service";
 
 class BookDisplay extends Component {
 
@@ -10,22 +9,15 @@ class BookDisplay extends Component {
     super()
     this.state = {
       book: {},
-      averageRating: 0,
       coverPhoto: {}
     }
   }
 
   componentDidMount() {
-    let token = getLocalStorage("token")
     let id = this.props.match.params.id;
-    API.get(`books/${id}`, {
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    }).then(result => {
+    BooKService.getBook(id).then(result => {
       this.setState({
         book: result.data.book,
-        averageRating: result.data.average_rating,
         coverPhoto: result.data.book.cover_photo.url
       })
     }).catch(error => {
@@ -37,7 +29,7 @@ class BookDisplay extends Component {
 
   render(){
     let ratingAvailable = false;
-    if (this.state.averageRating > 0){
+    if (this.state.book.average_rating > 0){
       ratingAvailable = true
     }
     return(
@@ -58,7 +50,8 @@ class BookDisplay extends Component {
             <div className="media-content">
               <p className="title is-4">{this.state.book.title}</p>
               <p className="subtitle is-6">By: {this.state.book.author}</p>
-              <p className="subtitle is-6"><i>{ratingAvailable ? 'Average Rating:' + this.state.averageRating : "There are no reviews posted for this book"}</i></p>
+              <p className="subtitle is-6">{this.state.book.total_reviews} review(s) posted</p>
+              <p className="subtitle is-6"><i>{ratingAvailable ? 'Average Rating:' + this.state.book.average_rating : "---"}</i></p>
             </div>
           </div>
           <div className="content">

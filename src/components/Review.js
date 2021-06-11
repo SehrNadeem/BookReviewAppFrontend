@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import API from '../services/api';
 import withAuth from "../components/withAuth";
 import { withRouter } from "react-router-dom";
-import { getLocalStorage } from '../services/local-storage-service';
+import BooKService from "../services/book-service";
+import ReviewService from "../services/review-service";
 
 class Review extends Component {
 
@@ -18,14 +18,7 @@ class Review extends Component {
 
   componentDidMount(){
     let bookId = this.props.match.params.book_id;
-    let token = getLocalStorage("token")
-
-    API.get(`books/${bookId}`, {
-      headers: {
-        "Accept": "application/json",
-        "Authorization": `Bearer ${token}`
-      }
-    }).then(result => {
+    BooKService.getBook(bookId).then(result => {
       this.setState({
         book: result.data.book
       })
@@ -44,19 +37,12 @@ class Review extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    let token = getLocalStorage("token")
     let bookId = this.props.match.params.book_id;
 
-    API.post(`reviews/`, {
+    ReviewService.createReview({
       book_id: bookId,
       details: this.state.details,
       rating: this.state.rating
-    }, {
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      }
     }).then(result => {
       console.log(result)
       this.props.history.push(`/bookreviews/${bookId}`);

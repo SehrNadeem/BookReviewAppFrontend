@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import API from '../services/api';
 import withAuth from "../components/withAuth";
 import { withRouter } from "react-router-dom";
-import { getLocalStorage } from '../services/local-storage-service';
+import BooKService from "../services/book-service";
 
 class Book extends Component {
 
@@ -31,7 +30,6 @@ class Book extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    let token = getLocalStorage("token")
 
     const formData = new FormData()
     formData.append("cover_photo", this.state.coverPhoto)
@@ -39,13 +37,7 @@ class Book extends Component {
     formData.append("author", this.state.author)
     formData.append("short_description", this.state.shortDescription)
 
-    API.post(`books`, formData, {
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      }
-    }).then(result => {
+    BooKService.createBook(formData).then(result => {
       console.log(result)
       this.props.history.push("/bookslist");
     }).catch(error => {
