@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { signIn } from '../services/auth-service';
 import { Link, withRouter } from "react-router-dom";
 import { setLocalStorage } from '../services/local-storage-service';
+import { ActionCreators } from '../redux/actions';
+import { connect } from 'react-redux';
 
 class SignIn extends Component {
 
@@ -26,6 +28,7 @@ class SignIn extends Component {
 
       if (result.data.auth_token) {
         setLocalStorage('token', result.data.auth_token)
+        this.props.dispatch(ActionCreators.login(this.state));
         this.props.history.push(`/user/${this.state.username}`);
       }
       else {
@@ -58,4 +61,10 @@ class SignIn extends Component {
   }
 }
 
-export default withRouter(SignIn);
+const mapStateToProps = (state) => {
+  return {
+    username: state.username
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(SignIn));

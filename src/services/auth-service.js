@@ -4,6 +4,7 @@ export const signUp = user => {
   return API.post(`users`, {
     username: user.username,
     password: user.password,
+    email: user.email,
     first_name: user.firstName,
     last_name: user.lastName
   }, {

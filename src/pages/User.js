@@ -1,14 +1,33 @@
-import React from "react";
+import React, { Component } from "react";
 import withAuth from "../components/withAuth";
-import { useParams } from "react-router-dom";
+import { connect } from 'react-redux';
 
-const User = () => {
-  const { name } = useParams();
-  return (
-    <div>
-      <h1 className="title">Welcome {name}</h1>
-    </div>
-  );
-};
+class User extends Component {
+  constructor(props){
+    super(props)
+  }
 
-export default withAuth(User);
+  componentDidMount(){
+    console.log('props in mount', this.props)
+  }
+
+  render(){
+    console.log('props in mount', this.props)
+    return (
+      <div>
+        
+        <h1 className="title">Welcome {}</h1>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => {
+  console.log("the store state is: ")
+  console.log(state)
+  return {
+    user: state.user.user
+  }
+}
+
+export default connect(mapStateToProps)(withAuth(User));
