@@ -40,18 +40,12 @@ class BooksList extends Component  {
     this.props.history.push(`/bookdisplay/${bookId}`)
   }
 
-  getPage(position){
-    let params
-    if (position === 'prev')
-    {
-      params  = this.state.prevCursor
-    } 
-    else
-    {
-      params  = this.state.nextCursor
-    }
-    params = params + ':' + position
-    this.getBookList(params)
+  getNextPage(){
+    this.getBookList(this.state.nextCursor + ':next')
+  }
+
+  getPrevPage(){
+    this.getBookList(this.state.prevCursor + ':prev')
   }
 
   render(){
@@ -84,8 +78,8 @@ class BooksList extends Component  {
         <a href="/book" className="button">Add Book</a>
         <br/>
         <nav className="pagination is-center" role="navigation" aria-label="pagination">
-          <a className="pagination-previous" onClick={() => this.getPage('prev')}>Previous</a>
-          <a className="pagination-next" onClick={() => this.getPage('next')} >Next page</a>
+          <a className="pagination-previous" onClick={() => this.getPrevPage()}>Previous</a>
+          <a className="pagination-next" onClick={() => this.getNextPage()} >Next page</a>
         </nav>
       </div>
     );

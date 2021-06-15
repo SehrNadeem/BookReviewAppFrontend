@@ -15,11 +15,10 @@ export default class BooKService {
     return API.get(`books/${id}`)
   }
 
-  static getBookList(params){
+  static getBookList(pagination_key){
     let url = 'books_paginated/'
-    if (params)
-    {
-      url += params;
+    if (pagination_key) {
+      url += pagination_key;
     }
     return API.get(url, {
       headers: {

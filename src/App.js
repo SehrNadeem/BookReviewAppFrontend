@@ -13,6 +13,7 @@ import BookDisplay from './components/BookDisplay';
 import Review from './components/Review';
 import BookReviews from './components/BookReviews';
 
+
 class App extends Component {
 
   constructor(){
@@ -36,14 +37,14 @@ class App extends Component {
             </Route>
             <div>
               <Navbar />
-              <Route exact path="/user/:name">
+              <Route exact path="/user/:name" >
                 <User />
               </Route>
 
               <Route exact path="/user">
                 <User />
               </Route>
-
+              
               <Route path="/book">
                 <Book />
               </Route>

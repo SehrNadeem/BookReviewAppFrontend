@@ -3,9 +3,9 @@ import { Redirect } from "react-router-dom";
 import { getLocalStorage } from '../services/local-storage-service';
 
 const withAuth = (Component) => {
-  const AuthRoute = () => {
+  const AuthRoute = (props) => {
     if (getLocalStorage("token")) {
-      return <Component />;
+      return <Component {...props} />;
     } else {
       return <Redirect to="/" />;
     }
