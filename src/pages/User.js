@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import withAuth from "../components/withAuth";
 import { connect } from 'react-redux';
+import withAuth from "../components/withAuth";
 
 class User extends Component {
   constructor(props){
@@ -15,19 +15,17 @@ class User extends Component {
     console.log('props in mount', this.props)
     return (
       <div>
-        
-        <h1 className="title">Welcome {}</h1>
+        <h1 className="title">Welcome {this.props.user.username}</h1>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  console.log("the store state is: ")
-  console.log(state)
+  console.log("the store state is: ", state)
   return {
     user: state.user.user
   }
 }
 
-export default connect(mapStateToProps)(withAuth(User));
+export default withAuth(connect(mapStateToProps)(User));

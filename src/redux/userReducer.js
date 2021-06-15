@@ -19,28 +19,9 @@ const userReducer = (state = initialState, action) => {
     }
   case 'ADD_USER':
     return {
-      //action.payload,
-      // formSubmitted: false // after update user formsubmition reset
+      ...state,
+      user: action.payload
     }
-  // case Types.UPDATE_USER:
-  //   return {
-  //     ...state,
-  //     profile: action.payload.user,
-  //     formSubmitted: false // after update user formsubmition reset
-  //   }
-  // case Types.UPDATE_PROFILE_PICTURE:
-  //   return {
-  //     ...state,
-  //     profile: {
-  //       ...state.profile,
-  //       profileImage: action.payload.image
-  //     }
-  //   }
-  // case Types.FORM_SUBMITION_STATUS:
-  //   return {
-  //     ...state,
-  //     formSubmitted: action.payload.status
-  //   }
   default:
     return state;
   }
