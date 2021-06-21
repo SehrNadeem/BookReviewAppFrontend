@@ -15,9 +15,14 @@ class BookDisplay extends Component {
   }
 
   componentDidMount() {
-    // console.log("testing 123")
-    let id = this.props.match.params.id;
-    // let id = '1'
+    let id;
+    if (this.props.match){
+      id = this.props.match.params.id;
+    }
+    else{
+      id = '1'; //for testing purpose only
+    } 
+    
     BooKService.getBook(id).then(result => {
       this.setState({
         book: result.data.book,
@@ -47,4 +52,4 @@ class BookDisplay extends Component {
 }
 
 export default withAuth(withRouter(BookDisplay));
-// export default BookDisplay;
+export { BookDisplay };
