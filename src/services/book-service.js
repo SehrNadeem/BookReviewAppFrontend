@@ -15,6 +15,15 @@ export default class BooKService {
     return API.get(`books/${id}`)
   }
 
+  static deleteBook(id){
+    return API.delete(`books/${id}`, {
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      }
+    })  
+  }
+
   static getBookList(pagination_key){
     let url = 'books_paginated/'
     if (pagination_key) {

@@ -7,12 +7,7 @@ class User extends Component {
     super(props)
   }
 
-  componentDidMount(){
-    console.log('props in mount', this.props)
-  }
-
   render(){
-    console.log('props in mount', this.props)
     return (
       <div>
         <h1 className="title">Welcome {this.props.user.username}</h1>
@@ -22,7 +17,6 @@ class User extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("the store state is: ", state)
   return {
     user: state.user.user
   }
