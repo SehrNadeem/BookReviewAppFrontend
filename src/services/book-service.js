@@ -24,10 +24,22 @@ export default class BooKService {
     })  
   }
 
-  static getBookList(pagination_key){
+  static getBookList(paginationKey){
     let url = 'books_paginated/'
-    if (pagination_key) {
-      url += pagination_key;
+    if (paginationKey) {
+      url += paginationKey;
+    }
+    return API.get(url, {
+      headers: {
+        "Accept": "application/json"
+      }
+    })
+  }
+
+  static searchBookList(searchQuery){
+    let url = 'search_books/?q='
+    if (searchQuery) {
+      url += searchQuery;
     }
     return API.get(url, {
       headers: {

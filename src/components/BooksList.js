@@ -93,9 +93,37 @@ class BooksList extends Component  {
     this.getBookList(this.state.prevCursor + ':prev')
   }
 
+  searchBookList = (event) => {
+    BooKService.searchBookList(event.target.value).then(result => {
+      let books = result.data.books
+      console.log(books)
+      this.setStateData(books, [])
+    }).catch(error => {
+      console.log(error)
+      this.setState({
+        error: error.message
+      })
+    })
+  }
+
   render(){
     return (
       <div className="container">
+        <br />
+        <div className="field is-horizontal">
+          <div className="field-label is-normal">
+            <label className="label">Search Book List: </label>
+          </div>
+          <div className="field-body">
+            <div className="field">
+              <p className="control">
+                <input className="input" placeholder="Book Title" onChange={this.searchBookList}/>
+              </p>
+            </div>
+          </div>
+        </div> 
+
+        <br />
         <table className="table is-hoverable is-fullwidth">
           <tbody>
             <tr>
