@@ -2,8 +2,8 @@ import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import BookContent from '../components/BookContent';
-import BookDisplay from '../components/BookDisplay';
-import BooKService from '../services/book-service';
+// import BookDisplay from '../components/BookDisplay';
+// import BooKService from '../services/book-service';
 
 Enzyme.configure({ adapter: new Adapter() })
 
@@ -33,16 +33,16 @@ test('Book content displays book information', () => {
 
 });
 
-test('Should fetch book data from server', () => {
+// test('Should fetch book data from server', () => {
 
-  jest.mock('../services/book-service');
+//   jest.mock('../services/book-service');
 
-  BooKService.getBook = jest.fn(() => {
-    return Promise.resolve();
-  })
+//   BooKService.getBook = jest.fn(() => {
+//     return Promise.resolve();
+//   })
 
-  const bookDisplay = shallow(<BookDisplay />)
-  console.log(bookDisplay.debug())
+//   const bookDisplay = shallow(<BookDisplay />)
+//   console.log(bookDisplay.debug())
  
-  expect(BooKService.getBook).toHaveBeenCalled();
-});
+//   expect(BooKService.getBook).toHaveBeenCalled();
+// });
