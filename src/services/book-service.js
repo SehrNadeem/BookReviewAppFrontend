@@ -36,10 +36,13 @@ export default class BooKService {
     })
   }
 
-  static searchBookList(searchQuery){
+  static searchBookList(searchQuery, paginationKey){
     let url = 'search_books/?q='
     if (searchQuery) {
       url += searchQuery;
+    }
+    if (paginationKey){
+      url = url + '&page=' + paginationKey
     }
     return API.get(url, {
       headers: {

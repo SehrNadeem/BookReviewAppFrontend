@@ -15,19 +15,32 @@ class BooksList extends Component  {
       nextCursor: '',
       prevCursor: '',
       error: '',
-      success: ''
+      success: '',
+      searchKey: ''   
     }
   }
 
-  getBookList(url){
-    BooKService.getBookList(url).then(result => {
-      let books = result.data.books
-      this.setStateData(books, result.data.posted_by)
-    }).catch(error => {
-      this.setState({
-        error: error.message
+  getBookList(paginationKey){
+    if (this.state.searchKey) {
+      BooKService.searchBookList(this.state.searchKey, paginationKey).then(result => {
+        this.setStateData(result.data.books, result.data.posted_by)
+      }).catch(error => {
+        console.log(error)
+        this.setState({
+          error: error.message
+        })
       })
-    })
+    } 
+    else {
+      BooKService.getBookList(paginationKey).then(result => {
+        this.setStateData(result.data.books, result.data.posted_by)
+      }).catch(error => {
+        this.setState({
+          error: error.message
+        })
+      })
+    }
+    
   }
 
   componentDidMount(){
@@ -47,14 +60,16 @@ class BooksList extends Component  {
   }
 
   setStateData(books, postedBy){
-    this.setState({
-      books: books,
-      postedBy: postedBy,
-      prevCursor: books[0].cursor,
-      nextCursor: books[books.length - 1].cursor,
-      error: '',
-      success: ''
-    })
+    if (books.length > 0){
+      this.setState({
+        books: books,
+        postedBy: postedBy,
+        error: '',
+        success: '',
+        prevCursor: books[0].cursor,
+        nextCursor: books[books.length - 1].cursor
+      })
+    }
   }
 
   async deleteBook(bookId){
@@ -94,16 +109,10 @@ class BooksList extends Component  {
   }
 
   searchBookList = (event) => {
-    BooKService.searchBookList(event.target.value).then(result => {
-      let books = result.data.books
-      console.log(books)
-      this.setStateData(books, [])
-    }).catch(error => {
-      console.log(error)
-      this.setState({
-        error: error.message
-      })
+    this.setState({
+      searchKey: event.target.value
     })
+    this.getBookList()
   }
 
   render(){

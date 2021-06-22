@@ -27,7 +27,7 @@ test('Book content displays book information', () => {
 
   expect(title).toEqual(book.title);
   expect(author).toEqual('By: ' + book.author);
-  expect(totalReviews).toEqual(book.total_reviews + ' review(ss) posted');
+  expect(totalReviews).toEqual(book.total_reviews + ' review(s) posted');
   expect(averageRating).toEqual('Average Rating: ' + book.average_rating);
   expect(shortDescription).toEqual('Short Description: ' + book.short_description);
 
